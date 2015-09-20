@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{D1BC2A35-7CAB-BB92-FD02-306A1E9AC9F2}</ProjectGuid>
+	<ProjectGuid>{5D47571A-850E-745E-E90B-CA96A7D92251}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,11 +46,17 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Game.cs" />
-     <Compile Include="Assets\NextPhase.cs" />
-     <Compile Include="Assets\Player.cs" />
-     <Compile Include="Assets\Tower.cs" />
-     <Compile Include="Assets\TowerPopUp.cs" />
+     <Compile Include="Assets\Assets\Scripts\BuildLocation.cs" />
+     <Compile Include="Assets\Assets\Scripts\BuildLocationPopUp.cs" />
+     <Compile Include="Assets\Assets\Scripts\Catapult.cs" />
+     <Compile Include="Assets\Assets\Scripts\Combat.cs" />
+     <Compile Include="Assets\Assets\Scripts\CombatMMMM.cs" />
+     <Compile Include="Assets\Assets\Scripts\Game.cs" />
+     <Compile Include="Assets\Assets\Scripts\NextPhase.cs" />
+     <Compile Include="Assets\Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Assets\Scripts\Tower.cs" />
+     <Compile Include="Assets\Assets\Scripts\TowerPopUp.cs" />
+     <Compile Include="Assets\Assets\Scripts\Trebuchet.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>M:/Program Files (x86)/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

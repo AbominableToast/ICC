@@ -4,7 +4,7 @@ using System.Collections;
 public class Tower : MonoBehaviour {
 
 	public GameObject onTop;
-
+	public bool upgraded = false;
 
 
 	public void addObject(GameObject obj){
@@ -16,7 +16,7 @@ public class Tower : MonoBehaviour {
 		GameObject myUpgrade = Instantiate (upgrade) as GameObject;
 		onTop = myUpgrade;
 		myUpgrade.transform.parent = this.transform;
-		myUpgrade.transform.position = new Vector2 (transform.position.x, transform.position.y + 1);
+		myUpgrade.transform.position = new Vector2 (transform.position.x, transform.position.y + 2);
 	}
 
 	public void addUpgrade(GameObject upgrade, Vector2 position){
@@ -25,6 +25,7 @@ public class Tower : MonoBehaviour {
 			onTop = myUpgrade;
 			myUpgrade.transform.parent = this.transform;
 			myUpgrade.transform.position = position;
+			upgraded = true;
 		}
 	}
 
