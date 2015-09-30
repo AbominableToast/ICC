@@ -29,6 +29,8 @@ public class Player : MonoBehaviour {
 	public Sprite myTurn2;
 	private SpriteRenderer spriteRenderer;
 
+	public static bool hasBuilt = false;
+
 	// Use this for initialization
 	void Start (){
 		spriteRenderer = GetComponent<SpriteRenderer> ();
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour {
 		phaseIndex++;
 		if (phaseIndex > 2) {
 			phaseIndex = 0;
+			Player.hasBuilt = false;
 			Game.endTurn();
 		}
 		currentPhase = phases [phaseIndex];

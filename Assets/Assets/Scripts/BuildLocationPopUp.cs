@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BuildLocationPopUp : MonoBehaviour {
+public class BuildLocationPopUp : MonoBehaviour , PopUpInterface {
 
 	private BuildLocation parent;
 	
@@ -13,6 +13,7 @@ public class BuildLocationPopUp : MonoBehaviour {
 	
 	private GameObject player;
 	public GameObject defaultPlayer;
+	public GameObject menuPopUp;
 
 	void Start(){
 		parent = transform.parent.GetComponent<BuildLocation>();
@@ -31,20 +32,25 @@ public class BuildLocationPopUp : MonoBehaviour {
 	}
 	
 	void Update(){	
-		renderer.enabled = spriteEnabled;
-		if (!isPhase ("Build")) {
+		if (!isPhase ("Build") || !correctPlayer() || Player.hasBuilt || transform.parent.GetComponent<BuildLocation>().upgraded) {
 			spriteEnabled = false;
-		} else if(transform.parent.GetComponent<BuildLocation>().building ==null ){
+			GetComponent<Collider2D> ().enabled = false;
+		} else{
 			spriteEnabled = true;
+			GetComponent<Collider2D> ().enabled = true;
 		}
-		if (!correctPlayer ()) {
-			spriteEnabled = false;
-		}
+		
+		renderer.enabled = spriteEnabled;
+
 	}
 	
 	void OnMouseDown(){
 		if (parent.building == null && correctPlayer() && isPhase("Build") ) {
-			parent.addUpgrade (building);
+			foreach(GameObject obj in GameObject.FindGameObjectsWithTag("MenuPopUp")){
+				obj.active = false;
+				obj.transform.parent.GetComponent<PopUpInterface>().setSpriteEnabled(true);
+			}
+			menuPopUp.active = true;
 			spriteEnabled = false;
 		}
 	}
@@ -71,5 +77,10 @@ public class BuildLocationPopUp : MonoBehaviour {
 		}
 		
 		return false;
+	}
+
+	public void setSpriteEnabled(bool enabled){
+		Debug.Log ("Test");
+		spriteEnabled = enabled;
 	}
 }

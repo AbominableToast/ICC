@@ -1,31 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Tower : MonoBehaviour {
-
-	public GameObject onTop;
-	public bool upgraded = false;
-
+public class Tower : BaseBuilding {
+	
+	private GameObject owner;
 
 	public void addObject(GameObject obj){
 		onTop = obj;
 	}
 
-
-	public void addUpgrade(GameObject upgrade){
-		GameObject myUpgrade = Instantiate (upgrade) as GameObject;
-		onTop = myUpgrade;
-		myUpgrade.transform.parent = this.transform;
-		myUpgrade.transform.position = new Vector2 (transform.position.x, transform.position.y + 2);
-	}
-
-	public void addUpgrade(GameObject upgrade, Vector2 position){
-		if (transform.parent.GetComponent<Player>().getCurrentPhase().Equals ("Build")) {
-			GameObject myUpgrade = Instantiate (upgrade) as GameObject;
-			onTop = myUpgrade;
-			myUpgrade.transform.parent = this.transform;
-			myUpgrade.transform.position = position;
-			upgraded = true;
+	public void setOwner(GameObject obj){
+		owner = obj;
+		if (owner.tag == "Player 1") {
+			transform.localScale = new Vector3(1f,0.5f,0.5f);
+		} else {
+			transform.localScale = new Vector3(-1f,0.5f,0.5f);
 		}
 	}
 

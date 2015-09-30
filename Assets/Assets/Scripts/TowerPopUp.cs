@@ -2,16 +2,18 @@
 using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class TowerPopUp : MonoBehaviour {
+public class TowerPopUp : MonoBehaviour ,PopUpInterface{
 
 	private Tower parent;
 	public GameObject catapult;
 
-	private bool spriteEnabled;
+	public bool spriteEnabled;
 	private SpriteRenderer renderer;
 
 	private GameObject player;
 	public GameObject defaultPlayer;
+
+	public GameObject menuPopUp;
 
 	void Start(){
 		parent = transform.parent.GetComponent<Tower>();
@@ -31,20 +33,24 @@ public class TowerPopUp : MonoBehaviour {
 	}
 
 	void Update(){	
-		renderer.enabled = spriteEnabled;
-		if (!isPhase ("Build")) {
+		if (!canUpgrade())  { // for all reasons the menu popup should not exist make sure it doesnt appear
 			spriteEnabled = false;
-		} else if(transform.parent.GetComponent<Tower>().onTop ==null ){
+			GetComponent<Collider2D> ().enabled = false;
+		} else {
 			spriteEnabled = true;
+			GetComponent<Collider2D> ().enabled = true;
 		}
-		if (!correctPlayer ()) {
-			spriteEnabled = false;
-		}
+		
+		renderer.enabled = spriteEnabled;
 	}
 
-	void OnMouseDown(){
+	void OnMouseUp(){
 		if (parent.onTop == null && correctPlayer() && isPhase("Build") ) {
-			parent.addUpgrade (catapult);
+			foreach(GameObject obj in GameObject.FindGameObjectsWithTag("MenuPopUp")){
+				obj.active = false;
+				obj.transform.parent.GetComponent<PopUpInterface>().setSpriteEnabled(true);
+			}
+			menuPopUp.active = true;
 			spriteEnabled = false;
 		}
 	}
@@ -69,9 +75,16 @@ public class TowerPopUp : MonoBehaviour {
 		if(phase.Equals("Attack")){
 			return player.GetComponent<Player>().getCurrentPhase() == 2;
 		}
-
 		return false;
 	}
 
+	public void setSpriteEnabled(bool enabled){
+		Debug.Log ("Test");
+		spriteEnabled = enabled;
+	}
+
+	public bool canUpgrade(){
+		return !(!isPhase ("Build") || !correctPlayer () || Player.hasBuilt || transform.GetChild (0).gameObject.active || transform.parent.gameObject.GetComponent<Tower> ().upgraded);
+	}
 
 }

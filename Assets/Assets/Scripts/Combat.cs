@@ -20,6 +20,9 @@ public class Combat : MonoBehaviour {
 	public int catapultProbability = 6;
 	public int trebuchetProbability = 5;
 
+	public int attackDamageModifier = 0;
+	public int catapultDamage = 2;
+	public int trebuchetDamage = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -34,9 +37,11 @@ public class Combat : MonoBehaviour {
 		spriteRenderer.enabled = spriteEnabled;
 		if (isAttackPhase()) {
 			spriteEnabled = true;
+			GetComponent<Collider2D>().enabled = true;
 		} 
 		else {
 			spriteEnabled = false;
+			GetComponent<Collider2D>().enabled = false;
 		}
 	
 	}
@@ -72,20 +77,20 @@ public class Combat : MonoBehaviour {
 	void fireWeaponsAt(Player target){
 		foreach (GameObject catapult in GameObject.FindGameObjectsWithTag("Catapult")) {
 			if( (catapult.GetComponent<Catapult>().getOwner().Equals (player1)&&Game.p1Turn) || (catapult.GetComponent<Catapult>().getOwner().Equals (player2)&&!Game.p1Turn)){
-				fireAtTarget(target, catapultProbability + attackProbabilityModifier);
+				fireAtTarget(target, catapultProbability + attackProbabilityModifier, catapultDamage + attackDamageModifier);
 			}
 		}
 		foreach (GameObject trebuchet in GameObject.FindGameObjectsWithTag("Trebuchet")) {
 			if( (trebuchet.GetComponent<Trebuchet>().getOwner().Equals (player1)&&Game.p1Turn) || (trebuchet.GetComponent<Trebuchet>().getOwner().Equals (player2)&&!Game.p1Turn)){
-				fireAtTarget(target, trebuchetProbability + attackProbabilityModifier);
+				fireAtTarget(target, trebuchetProbability + attackProbabilityModifier, trebuchetDamage + attackDamageModifier);
 			}
 		}
 	}
 
-	void fireAtTarget(Player target, int probabilityOfHit){
+	void fireAtTarget(Player target, int probabilityOfHit, int damage){
 
 		if (hitTarget(probabilityOfHit)){
-			target.walls -= 2;
+			target.walls -= damage;
 			Debug.Log ("hit");
 		} else {
 		Debug.Log ("Miss");

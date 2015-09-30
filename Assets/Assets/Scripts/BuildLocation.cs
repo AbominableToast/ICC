@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BuildLocation : MonoBehaviour {
+public class BuildLocation : BaseBuilding {
 
 	public GameObject building;
-	public bool upgraded = false;
+	public GameObject player1;
+	public GameObject player2;
 
+	void Start(){
+		player1 = GameObject.FindGameObjectWithTag ("Player 1");
+		player2 = GameObject.FindGameObjectWithTag ("Player 2");
+	}
 
 	public void addObject(GameObject obj){
 		building = obj;
@@ -15,21 +20,16 @@ public class BuildLocation : MonoBehaviour {
 		GameObject myUpgrade = Instantiate (upgrade) as GameObject;
 		building = myUpgrade;
 		myUpgrade.transform.parent = this.transform;
-		myUpgrade.transform.position = new Vector2 (transform.position.x, transform.position.y + 2);
-	}
-
-	public void addUpgrade(GameObject upgrade, Vector2 position){
-		if (transform.parent.parent.GetComponent<Player>().getCurrentPhase().Equals ("Build")) {
-			GameObject myUpgrade = Instantiate (upgrade) as GameObject;
-			building = myUpgrade;
-			myUpgrade.transform.parent = this.transform;
-			myUpgrade.transform.position = position;
-			upgraded = true;
+		myUpgrade.transform.position = new Vector2 (transform.position.x, transform.position.y + 1);
+		
+		if(Game.p1Turn){
+			building.GetComponent<Tower>().setOwner(player1);
+		}else{
+			building.GetComponent<Tower>().setOwner(player2);
 		}
+		upgraded = true;
+		Player.hasBuilt = true;
 	}
 
-	public void clearPopUp(){
-
-	}
 
 }
